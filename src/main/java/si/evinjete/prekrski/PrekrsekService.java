@@ -8,7 +8,7 @@ import java.util.List;
 
 @RequestScoped
 public class PrekrsekService {
-    @PersistenceContext(unitName = "kumuluzee-samples-jpa")
+    //@PersistenceContext(unitName = "kumuluzee-samples-jpa")
     private EntityManager em;
 
     public Prekrsek getPrekrsek(String prekrsekId) {

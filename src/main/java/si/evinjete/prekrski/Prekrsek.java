@@ -26,20 +26,35 @@ public class Prekrsek implements Serializable {
     @Column(name = "timestamp", nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date timestamp;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public Date getTimestamp() {
         return timestamp;
     }
 
-    public Integer getId() {
-        return id;
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getNumberPlate() {
         return numberPlate;
     }
 
+    public void setNumberPlate(String numberPlate) {
+        this.numberPlate = numberPlate;
+    }
+
     public String getLocation() {
         return location;
     }
 
+    public void  setLocation(String location) {
+        this.location = location;
+    }
 }

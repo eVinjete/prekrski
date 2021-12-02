@@ -11,9 +11,6 @@ public class PrekrsekService {
     @PersistenceContext(unitName = "kumuluzee-samples-jpa")
     private EntityManager em;
 
-    @PersistenceContext(unitName = "kumuluzee-samples-jpa-failed")
-    private EntityManager emFailed;
-
     public Prekrsek getPrekrsek(String prekrsekId) {
         return em.find(Prekrsek.class, prekrsekId);
     }
@@ -39,13 +36,5 @@ public class PrekrsekService {
         if (prekrsek != null) {
             em.remove(prekrsek);
         }
-    }
-
-    public List<Prekrsek> getPrekrskiFailed() {
-        List<Prekrsek> prekrski = emFailed
-                .createNamedQuery("Prekrsek.findPrekrski", Prekrsek.class)
-                .getResultList();
-
-        return prekrski;
     }
 }

@@ -11,9 +11,10 @@
     <description>Microservice for detection of offences</description>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-        <kumuluzee.version>3.12.2</kumuluzee.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+
+        <kumuluzee.version>3.13.0-SNAPSHOT</kumuluzee.version>
     </properties>
 
     <dependencyManagement>
@@ -78,6 +79,7 @@
                         <id>package</id>
                         <goals>
                             <goal>repackage</goal>
+<!--                            <goal>copy-dependencies</goal>-->
                         </goals>
                     </execution>
                 </executions>

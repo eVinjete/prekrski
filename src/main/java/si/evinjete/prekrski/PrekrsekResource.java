@@ -44,11 +44,4 @@ public class PrekrsekResource {
         prekrsekBean.deletePrekrsek(prekrsekId);
         return Response.noContent().build();
     }
-
-    @GET
-    @Path("/failed")
-    public Response getAllPrekrskiFailed() {
-        List<Prekrsek> prekrski = prekrsekBean.getPrekrskiFailed();
-        return Response.ok(prekrski).build();
-    }
 }

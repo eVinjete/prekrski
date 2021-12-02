@@ -1,0 +1,21 @@
+kumuluzee:
+  datasources:
+    - jndi-name: jdbc/PrekrskiDS
+      connection-url: jdbc:postgresql://172.17.0.2:5432/prekrski
+      username: postgres
+      password: postgres
+      pool:
+        max-size: 20
+
+#    - jndi-name: jdbc/FailedPrekrskiDS
+#      connection-url: jdbc:postgresql://172.17.0.2:55432/some-nonexisting-database
+#      username: postgres
+#      password: postgres
+#      continue-on-error: true
+#      pool:
+#        max-size: 2
+#  persistence-units:
+#    - name: "kumuluzee-samples-jpa"
+#      continue-on-error: false
+#    - name: "kumuluzee-samples-jpa-failed"
+#      continue-on-error: true

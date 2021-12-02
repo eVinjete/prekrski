@@ -1,2 +1,2 @@
 # prekrski
-Microservice for detection of offences
+Microservice for detection and management of offences

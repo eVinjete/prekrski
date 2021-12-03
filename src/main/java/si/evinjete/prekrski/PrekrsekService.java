@@ -4,11 +4,13 @@ import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
+import java.util.Date;
 import java.util.List;
 
 @RequestScoped
 public class PrekrsekService {
     //@PersistenceContext(unitName = "kumuluzee-samples-jpa")
+    @PersistenceContext(unitName = "evinjete-prekrski")
     private EntityManager em;
 
     public Prekrsek getPrekrsek(String prekrsekId) {
@@ -36,5 +38,13 @@ public class PrekrsekService {
         if (prekrsek != null) {
             em.remove(prekrsek);
         }
+    }
+
+    @Transactional
+    public Prekrsek addNewPrekrsek(Prekrsek prekrsek) {
+        if (prekrsek != null) {
+            em.persist(prekrsek);
+        }
+        return prekrsek;
     }
 }

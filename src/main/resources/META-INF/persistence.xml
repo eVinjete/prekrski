@@ -4,11 +4,12 @@
              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence
              http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd"
              version="2.1">
-    <persistence-unit name="kumuluzee-samples-jpa" transaction-type="JTA">
+    <persistence-unit name="evinjete-prekrski" transaction-type="JTA">
 
         <jta-data-source>jdbc/PrekrskiDS</jta-data-source>
 
         <class>si.evinjete.prekrski.Prekrsek</class>
+        <class>si.evinjete.prekrski.Slika</class>
 
         <properties>
             <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>

@@ -35,15 +35,6 @@ public class PrekrsekResource {
 
     @GET
     public Response getAllPrekrski() {
-//        Prekrsek p = new Prekrsek();
-//        p.setTimestamp(new Date());
-//        p.setLocation("neka_lokacija");
-//        p.setNumberPlate("KPVK313");
-//
-//        em.getTransaction().begin();
-//        em.persist(p);
-//        em.getTransaction().commit();
-
         List<Prekrsek> prekrski = prekrsekBean.getPrekrski();
         return Response.ok(prekrski).build();
     }
@@ -75,7 +66,6 @@ public class PrekrsekResource {
     @Path("zaznaj")
     @Consumes("image/jpeg")
     public Response detectPrekrsek(@QueryParam("kraj") String location, InputStream uploadedInputStream) throws IOException {
-        System.out.println(location);
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         int nRead;
         byte[] data = new byte[4];
@@ -86,7 +76,6 @@ public class PrekrsekResource {
 
         buffer.flush();
         byte[] targetArray = buffer.toByteArray();
-        System.out.println(targetArray.toString());
 
         Slika slika = new Slika();
         slika.setContent(targetArray);
@@ -101,7 +90,7 @@ public class PrekrsekResource {
         slikaService.addNewSlika(slika);
 
 //        return Response.noContent().build();
-        return Response.status(200).entity("dodano?").build();
+        return Response.status(200).build();
     }
 
     @DELETE

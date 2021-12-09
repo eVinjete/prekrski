@@ -89,7 +89,6 @@ public class PrekrsekResource {
         slika.setNumberPlate(response);
         slikaService.addNewSlika(slika);
 
-//        return Response.noContent().build();
         return Response.status(200).build();
     }
 

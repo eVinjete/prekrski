@@ -29,6 +29,8 @@ public class PrekrsekResource {
     private PrekrsekService prekrsekBean;
     @Inject
     private SlikaService slikaService;
+    @Inject
+    private PrekrskiProperties properties;
 
     @PersistenceContext
     private EntityManager em;
@@ -83,7 +85,8 @@ public class PrekrsekResource {
         slika.setLocation(location);
 
         Client client = ClientBuilder.newClient();
-        wb = client.target("http://localhost:8081/v1/upload/slika");
+        // wb = client.target("http://localhost:8081/v1/upload/slika");
+        wb = client.target("http://"+properties.getAnprIp()+":8080/v1/upload/slika");
         String response = wb.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
 
         slika.setNumberPlate(response);
@@ -97,5 +100,20 @@ public class PrekrsekResource {
     public Response deletePrekrsek(@PathParam("prekrsekId") String prekrsekId) {
         prekrsekBean.deletePrekrsek(prekrsekId);
         return Response.noContent().build();
+    }
+
+    @GET
+    @Path("/config")
+    public Response test() {
+        String response =
+                "{" +
+                        "\"anprIp\": \"%s\","+
+                        "}";
+
+        response = String.format(
+                response,
+                properties.getAnprIp());
+
+        return Response.ok(response).build();
     }
 }

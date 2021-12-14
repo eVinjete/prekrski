@@ -1,4 +1,12 @@
 kumuluzee:
+  name: prekrski
+  env:
+    name: dev
+  version: 1.0.0
+  server:
+    base-url: http://localhost:8080
+    http:
+      port: 8080
   datasources:
     - jndi-name: jdbc/PrekrskiDS
       connection-url: jdbc:postgresql://localhost:5432/prekrski
@@ -7,5 +15,8 @@ kumuluzee:
       pool:
         max-size: 20
   persistence-units:
-    - name: "kumuluzee-samples-jpa"
+    - name: "evinjete-prekrski"
       continue-on-error: false
+  config:
+    start-retry-delay-ms: 500
+    max-retry-delay-ms: 900000

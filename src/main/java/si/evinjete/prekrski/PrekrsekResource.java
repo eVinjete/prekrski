@@ -1,5 +1,6 @@
 package si.evinjete.prekrski;
 
+import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -23,7 +24,9 @@ import java.util.List;
 @Path("prekrski")
 public class PrekrsekResource {
 
-    private WebTarget wb;
+    @Inject
+    @DiscoverService(value = "anpr", version = "1.0.x", environment = "dev")
+    private WebTarget anprTarget;
 
     @Inject
     private PrekrsekService prekrsekBean;
@@ -84,13 +87,17 @@ public class PrekrsekResource {
         slika.setTimestamp(new Date());
         slika.setLocation(location);
 
-        Client client = ClientBuilder.newClient();
+        WebTarget service = anprTarget.path("v1/upload/slika");
+        String response = service.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
+
+        //Client client = ClientBuilder.newClient();
         // wb = client.target("http://localhost:8081/v1/upload/slika");
-        wb = client.target("http://"+properties.getAnprIp()+":8080/v1/upload/slika");
-        String response = wb.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
+        //anprTarget = client.target("http://"+properties.getAnprIp()+":8080/v1/upload/slika");
+        //String response = anprTarget.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
 
         slika.setNumberPlate(response);
         slikaService.addNewSlika(slika);
+        System.out.println(response);
 
         return Response.status(200).build();
     }

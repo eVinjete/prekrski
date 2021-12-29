@@ -9,7 +9,7 @@ kumuluzee:
       port: 8080
   datasources:
     - jndi-name: jdbc/PrekrskiDS
-      connection-url: jdbc:postgresql://localhost:5432/prekrski
+      connection-url: jdbc:postgresql://34.116.180.149:5432/prekrski
       username: postgres
       password: postgres
       pool:

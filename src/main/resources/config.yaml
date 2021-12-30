@@ -20,5 +20,6 @@ kumuluzee:
   config:
     start-retry-delay-ms: 500
     max-retry-delay-ms: 900000
+  discovery:
     etcd:
-      hosts: http://10.8.9.223:2379
+      hosts: http://localhost:2379

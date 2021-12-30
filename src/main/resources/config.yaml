@@ -21,7 +21,7 @@ kumuluzee:
     start-retry-delay-ms: 500
     max-retry-delay-ms: 900000
     etcd:
-      hosts: http://etcd-1:2379
+      hosts: http://localhost:2379
   discovery:
     etcd:
-      hosts: http://etcd-1:2379
+      hosts: http://localhost:2379

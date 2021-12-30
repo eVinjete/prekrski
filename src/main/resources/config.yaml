@@ -22,4 +22,4 @@ kumuluzee:
     max-retry-delay-ms: 900000
   discovery:
     etcd:
-      hosts: http://10.106.128.108:2379
+      hosts: http://localhost:2379

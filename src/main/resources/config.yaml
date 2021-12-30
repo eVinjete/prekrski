@@ -22,4 +22,4 @@ kumuluzee:
     max-retry-delay-ms: 900000
   discovery:
     etcd:
-      hosts: http://etcd-1-etcd:2379
+      hosts: http://10.8.9.223:2379

@@ -6,8 +6,6 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -90,11 +88,6 @@ public class PrekrsekResource {
         WebTarget service = anprTarget.path("v1/upload/slika");
         String response = service.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
 
-        //Client client = ClientBuilder.newClient();
-        // wb = client.target("http://localhost:8081/v1/upload/slika");
-        //anprTarget = client.target("http://"+properties.getAnprIp()+":8080/v1/upload/slika");
-        //String response = anprTarget.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
-
         slika.setNumberPlate(response);
         slikaService.addNewSlika(slika);
         System.out.println(response);
@@ -114,20 +107,5 @@ public class PrekrsekResource {
     public Response deleteAllSlike() {
         List<Slika> rows = slikaService.deleteAllSlika(properties.getSlikeAgeProperty());
         return Response.ok(rows).build();
-    }
-
-    @GET
-    @Path("/config")
-    public Response test() {
-        String response =
-                "{" +
-                        "\"slikeAgeProperty\": \"%d\","+
-                        "}";
-
-        response = String.format(
-                response,
-                properties.getSlikeAgeProperty());
-
-        return Response.ok(response).build();
     }
 }

@@ -14,8 +14,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <kumuluzee.version>3.12.2</kumuluzee.version>
-<!--        <kumuluzee.version>3.13.0-SNAPSHOT</kumuluzee.version>-->
+<!--        <kumuluzee.version>3.12.2</kumuluzee.version>-->
+        <kumuluzee.version>3.13.0-SNAPSHOT</kumuluzee.version>
     </properties>
 
     <dependencyManagement>
@@ -56,7 +56,7 @@
             <artifactId>kumuluzee-jpa-hibernate</artifactId>
         </dependency>
         <dependency>
-            <artifactId>kumuluzee-config-etcd</artifactId>
+            <artifactId>kumuluzee-config-consul</artifactId>
             <groupId>com.kumuluz.ee.config</groupId>
             <version>1.3.0</version>
         </dependency>

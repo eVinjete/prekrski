@@ -3,7 +3,10 @@ package si.evinjete.prekrski;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TemporalType;
 import javax.transaction.Transactional;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -46,5 +49,27 @@ public class SlikaService {
             em.persist(slika);
         }
         return slika;
+    }
+
+    @Transactional
+    public List<Slika> deleteAllSlika(Integer age) {
+        Date now = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(now);
+        cal.add(Calendar.HOUR, -age);
+        Date x = cal.getTime();
+
+        List<Slika> list = em.createQuery("SELECT s " +
+                        "FROM Slika s " +
+                        "WHERE s.timestamp BETWEEN :start AND :end")
+                .setParameter("start", x, TemporalType.DATE)
+                .setParameter("end", now, TemporalType.DATE)
+                .getResultList();
+
+        for (Slika slika: list) {
+            em.remove(slika);
+        }
+
+        return list;
     }
 }

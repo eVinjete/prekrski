@@ -109,17 +109,24 @@ public class PrekrsekResource {
         return Response.noContent().build();
     }
 
+    @DELETE
+    @Path("/slike/izbrisi")
+    public Response deleteAllSlike() {
+        List<Slika> rows = slikaService.deleteAllSlika(properties.getSlikeAgeProperty());
+        return Response.ok(rows).build();
+    }
+
     @GET
     @Path("/config")
     public Response test() {
         String response =
                 "{" +
-                        "\"anprIp\": \"%s\","+
+                        "\"slikeAgeProperty\": \"%d\","+
                         "}";
 
         response = String.format(
                 response,
-                properties.getAnprIp());
+                properties.getSlikeAgeProperty());
 
         return Response.ok(response).build();
     }

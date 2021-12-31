@@ -6,17 +6,18 @@ import com.kumuluz.ee.configuration.cdi.ConfigValue;
 import javax.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-@ConfigBundle("rest-config")
+@ConfigBundle("slike-config")
 public class PrekrskiProperties {
 
     @ConfigValue(watch = true)
-    private String anprIp;
+    // Max age of photos
+    private Integer slikeAgeProperty;
 
-    public String getAnprIp() {
-        return anprIp;
+    public Integer getSlikeAgeProperty() {
+        return slikeAgeProperty;
     }
 
-    public void setAnprIp(String anprIp) {
-        this.anprIp = anprIp;
+    public void setSlikeAgeProperty(Integer slikeAgeProperty) {
+        this.slikeAgeProperty = slikeAgeProperty;
     }
 }

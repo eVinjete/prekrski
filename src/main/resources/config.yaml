@@ -9,11 +9,9 @@ kumuluzee:
       port: 8080
   datasources:
     - jndi-name: jdbc/PrekrskiDS
-      #connection-url: jdbc:postgresql://34.122.241.182:5432/prekrski
-      connection-url: jdbc:postgresql://localhost:5432/prekrski
+      connection-url: jdbc:postgresql://34.122.241.182:5432/prekrski
       username: postgres
-      #password: X2CY4dBkNa1i
-      password: postgres
+      password: X2CY4dBkNa1i
       pool:
         max-size: 20
   persistence-units:
@@ -23,6 +21,7 @@ kumuluzee:
     start-retry-delay-ms: 500
     max-retry-delay-ms: 900000
   discovery:
-
-slike-config:
-  slike-age-property: 3
+    etcd:
+      hosts: http://10.8.0.122:2379
+      username: root
+      password: fe1Ep2HQ86

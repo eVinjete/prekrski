@@ -20,6 +20,8 @@ kumuluzee:
   config:
     start-retry-delay-ms: 500
     max-retry-delay-ms: 900000
+    consul:
+      agent: http://hashicorp-consul-server.default.svc.cluster.local:8500
   discovery:
     ttl: 20
     ping-interval: 15

@@ -86,6 +86,7 @@ public class PrekrsekResource {
         slika.setLocation(location);
 
         WebTarget service = anprTarget.path("v1/upload/slika");
+        System.out.println(service);
         String response = service.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
 
         slika.setNumberPlate(response);

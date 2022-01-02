@@ -27,3 +27,6 @@ kumuluzee:
     ping-interval: 15
     consul:
       agent: http://hashicorp-consul-server.default.svc.cluster.local:8500
+
+slike-config:
+  slike-age-property: 3

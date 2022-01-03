@@ -37,5 +37,5 @@ jobs:
       with:
         file: ./Dockerfile_with_maven_build
         push: true
-#        tags: lovrovrazic/evinjete:prekrski-${{ steps.time.outputs.time }}
-        tags: lovrovrazic/evinjete:prekrski-latest
+        tags: lovrovrazic/evinjete:prekrski-${{ steps.time.outputs.time }}
+#        tags: lovrovrazic/evinjete:prekrski-latest

@@ -45,15 +45,15 @@ public class PrekrsekResource {
     }
 
     @GET
-    @Path("/config")
+    @Path("config")
     public Response testConfig() {
         System.out.println("Recieved testConfig GET request.");
-        Optional<String> test = ConfigurationUtil.getInstance().get("test");
-        if(test.isPresent()){
-            System.out.println("Read value test: " + test);
+        Integer slikeAge = properties.getSlikeAgeProperty();
+        if(slikeAge != null){
+            System.out.println("Read value slikeAgeProperty: " + slikeAge);
         }
         else{
-            System.out.println("Couldnt read value. :(");
+            System.out.println("Couldn't read value. :(");
         }
 
         return Response.ok().build();

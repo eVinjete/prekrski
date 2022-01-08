@@ -1,5 +1,6 @@
 package si.evinjete.prekrski;
 
+import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -15,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RequestScoped
 @Consumes(MediaType.APPLICATION_JSON)
@@ -40,6 +42,22 @@ public class PrekrsekResource {
     public Response getAllPrekrski() {
         List<Prekrsek> prekrski = prekrsekBean.getPrekrski();
         return Response.ok(prekrski).build();
+    }
+
+    @GET
+    @Path("/config")
+    public Response testConfig() {
+        System.out.println("Recieved testConfig GET request.");
+        Optional<String> test = ConfigurationUtil.getInstance().get("test");
+        if(test.isPresent()){
+            System.out.println("Read value test: " + test);
+        }
+        else{
+            System.out.println("Couldnt read value. :(");
+        }
+
+        return Response.ok().build();
+
     }
 
     @GET

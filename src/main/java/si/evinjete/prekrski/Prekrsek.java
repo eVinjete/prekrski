@@ -25,22 +25,20 @@ public class Prekrsek implements Serializable {
     private String location;
     @Column(name = "timestamp", nullable = false, updatable = false, columnDefinition="TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date timestamp;
+    @Column(name = "imageId", nullable = false, updatable = false)
+    private Integer imageId;
 
     public Integer getId() {
         return id;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public void setId(Integer id) { this.id = id; }
 
     public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
-        this.timestamp = timestamp;
-    }
+    public void setTimestamp(Date timestamp) { this.timestamp = timestamp; }
 
     public String getNumberPlate() {
         return numberPlate;
@@ -57,4 +55,8 @@ public class Prekrsek implements Serializable {
     public void  setLocation(String location) {
         this.location = location;
     }
+
+    public Integer getImageId() { return imageId; }
+
+    public void setImageId(Integer imageId) { this.imageId = imageId; }
 }

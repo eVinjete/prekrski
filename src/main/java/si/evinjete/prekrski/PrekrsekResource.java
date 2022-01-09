@@ -1,12 +1,13 @@
 package si.evinjete.prekrski;
 
-import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.ws.rs.*;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
@@ -16,13 +17,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @RequestScoped
 @Consumes(MediaType.APPLICATION_JSON)
 @Produces(MediaType.APPLICATION_JSON)
 @Path("prekrski")
 public class PrekrsekResource {
+
+    private WebTarget wb;
 
     @Inject
     @DiscoverService(value = "anpr", version = "1.0.x", environment = "dev")
@@ -103,13 +105,26 @@ public class PrekrsekResource {
         slika.setTimestamp(new Date());
         slika.setLocation(location);
 
-        WebTarget service = anprTarget.path("v1/upload/slika");
-        System.out.println(service);
-        String response = service.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
+//        WebTarget service = anprTarget.path("v1/upload/slika");
+//        System.out.println(service);
+//        String response = service.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
+
+        Client client = ClientBuilder.newClient();
+        wb = client.target("http://anpr-service.default.svc.cluster.local:8080/v1/upload/slika");
+        String response = wb.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
 
         slika.setNumberPlate(response);
         slikaService.addNewSlika(slika);
         System.out.println(response);
+
+        //TODO v vinjete servisu preveriti ali obstaja veljavna vinjeta za zaznano registrsko tablico in če ne obstaja potem shrani prekršek
+
+        Prekrsek prekrsek = new Prekrsek();
+        prekrsek.setNumberPlate(response);
+        prekrsek.setLocation(location);
+        prekrsek.setTimestamp(new Date());
+        prekrsek.setImageId(slika.getId());
+        prekrsekBean.addNewPrekrsek(prekrsek);
 
         return Response.status(200).build();
     }

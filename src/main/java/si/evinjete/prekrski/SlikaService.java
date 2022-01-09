@@ -1,10 +1,12 @@
 package si.evinjete.prekrski;
 
 import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TemporalType;
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +15,9 @@ import java.util.List;
 public class SlikaService {
     @PersistenceContext(unitName = "evinjete-prekrski")
     private EntityManager em;
+
+    @Inject
+    PrekrsekService prekrsekBean;
 
     public Slika getSlika(Integer slikaId) {
         return em.find(Slika.class, slikaId);
@@ -57,17 +62,27 @@ public class SlikaService {
         cal.add(Calendar.HOUR, -age);
         Date x = cal.getTime();
 
-        List<Slika> list = em.createQuery("SELECT s " +
+        List<Slika> listSlika = em.createQuery(
+                     "SELECT s " +
                         "FROM Slika s " +
                         "WHERE s.timestamp BETWEEN :start AND :end")
                 .setParameter("start", x, TemporalType.DATE)
                 .setParameter("end", now, TemporalType.DATE)
                 .getResultList();
 
-        for (Slika slika: list) {
-            em.remove(slika);
+        List<Prekrsek> listPrekrsek = prekrsekBean.getPrekrski();
+        List<Integer> slikaIds = new ArrayList<Integer>();
+
+        for (Prekrsek prekrsek: listPrekrsek) {
+            slikaIds.add(prekrsek.getImageId());
         }
 
-        return list;
+        for (Slika slika: listSlika) {
+            if (!slikaIds.contains(slika.getId())) {
+                em.remove(slika);
+            }
+        }
+
+        return listSlika;
     }
 }

@@ -4,30 +4,31 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.Date;
-import java.util.List;
 
 @Named
 @RequestScoped
-public class PrekrsekBean implements Serializable {
+public class SlikaBean implements Serializable {
 
     @Inject
-    PrekrsekService prekrsekBean;
+    SlikaService slikaBean;
 
-    public PrekrsekBean(){}
+    public SlikaBean(){}
 
-    public PrekrsekBean(Integer id, String numberPlate, String location, Date timestamp){
+    public SlikaBean(Integer id, String numberPlate, String location, Date timestamp, byte[] content){
         this.id = id;
         this.numberPlate = numberPlate;
         this.location = location;
         this.timestamp = timestamp;
+        this.content = content;
     }
 
     private Integer id;
     private String numberPlate;
     private String location;
     private Date timestamp;
-    private Integer imageId;
+    private byte[] content;
 
     public Integer getId() {
         return id;
@@ -61,11 +62,17 @@ public class PrekrsekBean implements Serializable {
         this.location = location;
     }
 
-    public Integer getImageId() { return imageId; }
+    public byte[] getContent() {
+        return content;
+    }
 
-    public void setImageId(Integer imageId) { this.imageId = imageId; }
+    public void setContent(byte[] content) {
+        this.content = content;
+    }
 
-    public List<Prekrsek> getPrekrski() {
-        return prekrsekBean.getPrekrski();
+    public String getContentString(Integer id) {
+        Slika slika = slikaBean.getSlika(Integer.toString(id));
+        String imageString= new String(Base64.getEncoder().encodeToString(slika.getContent()));
+        return imageString;
     }
 }

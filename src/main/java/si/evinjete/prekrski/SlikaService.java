@@ -3,7 +3,6 @@ package si.evinjete.prekrski;
 import javax.enterprise.context.RequestScoped;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TemporalType;
 import javax.transaction.Transactional;
 import java.util.Calendar;
@@ -12,7 +11,6 @@ import java.util.List;
 
 @RequestScoped
 public class SlikaService {
-    //@PersistenceContext(unitName = "kumuluzee-samples-jpa")
     @PersistenceContext(unitName = "evinjete-prekrski")
     private EntityManager em;
 

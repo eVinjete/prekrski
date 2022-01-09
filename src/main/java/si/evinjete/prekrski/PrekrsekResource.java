@@ -101,6 +101,11 @@ public class PrekrsekResource {
         wb = client.target("http://anpr-service.default.svc.cluster.local:8080/v1/upload/slika");
         String response = wb.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
 
+        if(response.equals("")){
+            System.out.println("INFO -- Recieved image, did not detect any number plate. ");
+            return Response.status(200).build();
+        }
+
         slika.setNumberPlate(response);
         slikaService.addNewSlika(slika);
 
@@ -108,7 +113,7 @@ public class PrekrsekResource {
         //v vinjete servisu preveri ali obstaja veljavna vinjeta za zaznano registrsko tablico in če ne obstaja potem shrani prekršek
         wb = client.target("http://vinjete-wjsv4.default.svc.cluster.local:8082/v1/vinjete/tablica/"+response);
         Response responseVinjeta = wb.request().get();
-        if(responseVinjeta.getStatus() == Response.Status.NOT_FOUND.getStatusCode()){ // za podano registrsko tablico vinjeta ne obstaja
+        if(responseVinjeta.getStatus() != 200){ // za podano registrsko tablico vinjeta ne obstaja
             System.out.println("INFO -- New prekersek detected for tablica: " + response);
             Prekrsek prekrsek = new Prekrsek();
             prekrsek.setNumberPlate(response);

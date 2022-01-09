@@ -31,6 +31,10 @@ public class PrekrsekResource {
     private WebTarget anprTarget;
 
     @Inject
+    @DiscoverService(value = "uporabniki", version = "1.0.x", environment = "dev")
+    private WebTarget uporabnikiTarget;
+
+    @Inject
     private PrekrsekService prekrsekBean;
     @Inject
     private SlikaService slikaService;
@@ -44,22 +48,6 @@ public class PrekrsekResource {
     public Response getAllPrekrski() {
         List<Prekrsek> prekrski = prekrsekBean.getPrekrski();
         return Response.ok(prekrski).build();
-    }
-
-    @GET
-    @Path("config")
-    public Response testConfig() {
-        System.out.println("Recieved testConfig GET request.");
-        Integer slikeAge = properties.getSlikeAgeProperty();
-        if(slikeAge != null){
-            System.out.println("Read value slikeAgeProperty: " + slikeAge);
-        }
-        else{
-            System.out.println("Couldn't read value. :(");
-        }
-
-        return Response.ok().build();
-
     }
 
     @GET
@@ -127,6 +115,20 @@ public class PrekrsekResource {
         prekrsekBean.addNewPrekrsek(prekrsek);
 
         return Response.status(200).build();
+    }
+
+    @POST
+    @Path("test")
+    public Response testServiceCommunication() throws IOException {
+
+        WebTarget service = uporabnikiTarget.path("v1/uporabniki/test");
+        System.out.println(service);
+        Response response = service.request().get();
+
+        if(response != null){
+            return Response.ok().build();
+        }
+        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @DELETE

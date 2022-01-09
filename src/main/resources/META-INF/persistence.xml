@@ -11,11 +11,11 @@
         <class>si.evinjete.prekrski.Prekrsek</class>
         <class>si.evinjete.prekrski.Slika</class>
 
-<!--        <properties>-->
-<!--            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
-<!--            <property name="javax.persistence.schema-generation.create-source" value="metadata"/>-->
-<!--            <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>-->
-<!--        </properties>-->
+        <properties>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+            <property name="javax.persistence.schema-generation.create-source" value="metadata"/>
+            <property name="javax.persistence.schema-generation.drop-source" value="metadata"/>
+        </properties>
 
     </persistence-unit>
 </persistence>

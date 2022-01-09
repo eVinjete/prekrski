@@ -56,18 +56,23 @@ public class SlikaService {
 
     @Transactional
     public List<Slika> deleteAllSlika(Integer age) {
-        Date now = new Date();
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(now);
-        cal.add(Calendar.HOUR, -age);
-        Date x = cal.getTime();
+        Date start = new Date();
+        Calendar calStart = Calendar.getInstance();
+        calStart.set(1970, Calendar.JANUARY, 1);
+        Date startTime = calStart.getTime();
+
+        Date end = new Date();
+        Calendar calEnd = Calendar.getInstance();
+        calEnd.setTime(end);
+        calEnd.add(Calendar.HOUR, -age);
+        Date endTime = calEnd.getTime();
 
         List<Slika> listSlika = em.createQuery(
                      "SELECT s " +
                         "FROM Slika s " +
                         "WHERE s.timestamp BETWEEN :start AND :end")
-                .setParameter("start", x, TemporalType.DATE)
-                .setParameter("end", now, TemporalType.DATE)
+                .setParameter("start", startTime, TemporalType.DATE)
+                .setParameter("end", endTime, TemporalType.DATE)
                 .getResultList();
 
         List<Prekrsek> listPrekrsek = prekrsekBean.getPrekrski();
@@ -77,12 +82,15 @@ public class SlikaService {
             slikaIds.add(prekrsek.getImageId());
         }
 
+        List<Slika> removedSlika = new ArrayList<Slika>();
+
         for (Slika slika: listSlika) {
             if (!slikaIds.contains(slika.getId())) {
+                removedSlika.add(slika);
                 em.remove(slika);
             }
         }
 
-        return listSlika;
+        return removedSlika;
     }
 }

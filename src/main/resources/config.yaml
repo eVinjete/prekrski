@@ -11,7 +11,6 @@ kumuluzee:
     - jndi-name: jdbc/PrekrskiDS
       connection-url: jdbc:postgresql://34.122.241.182:5432/prekrski
       username: postgres
-      password: X2CY4dBkNa1i
       pool:
         max-size: 20
   persistence-units:

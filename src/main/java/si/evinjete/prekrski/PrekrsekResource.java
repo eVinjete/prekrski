@@ -103,19 +103,22 @@ public class PrekrsekResource {
 
         slika.setNumberPlate(response);
         slikaService.addNewSlika(slika);
-        System.out.println(response);
 
 
         //v vinjete servisu preveri ali obstaja veljavna vinjeta za zaznano registrsko tablico in če ne obstaja potem shrani prekršek
-        wb = client.target("http://vinjete-wjsv4.default.svc.cluster.local:8082/v1/tablica/"+response);
+        wb = client.target("http://vinjete-wjsv4.default.svc.cluster.local:8082/v1/vinjete/tablica/"+response);
         Response responseVinjeta = wb.request().get();
         if(responseVinjeta.getStatus() == Response.Status.NOT_FOUND.getStatusCode()){ // za podano registrsko tablico vinjeta ne obstaja
+            System.out.println("INFO -- New prekersek detected for tablica: " + response);
             Prekrsek prekrsek = new Prekrsek();
             prekrsek.setNumberPlate(response);
             prekrsek.setLocation(location);
             prekrsek.setTimestamp(new Date());
             prekrsek.setImageId(slika.getId());
             prekrsekBean.addNewPrekrsek(prekrsek);
+        }
+        else{
+            System.out.println("INFO -- tablica " + response + " found in database. ");
         }
 
         return Response.status(200).build();

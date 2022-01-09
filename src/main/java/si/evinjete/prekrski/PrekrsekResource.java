@@ -101,34 +101,32 @@ public class PrekrsekResource {
         wb = client.target("http://anpr-service.default.svc.cluster.local:8080/v1/upload/slika");
         String response = wb.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
 
+        if(response.equals("")){
+            System.out.println("INFO -- Recieved image, did not detect any number plate. ");
+            return Response.status(200).build();
+        }
+
         slika.setNumberPlate(response);
         slikaService.addNewSlika(slika);
-        System.out.println(response);
 
-        //TODO v vinjete servisu preveriti ali obstaja veljavna vinjeta za zaznano registrsko tablico in če ne obstaja potem shrani prekršek
 
-        Prekrsek prekrsek = new Prekrsek();
-        prekrsek.setNumberPlate(response);
-        prekrsek.setLocation(location);
-        prekrsek.setTimestamp(new Date());
-        prekrsek.setImageId(slika.getId());
-        prekrsekBean.addNewPrekrsek(prekrsek);
+        //v vinjete servisu preveri ali obstaja veljavna vinjeta za zaznano registrsko tablico in če ne obstaja potem shrani prekršek
+        wb = client.target("http://vinjete-wjsv4.default.svc.cluster.local:8082/v1/vinjete/tablica/"+response);
+        Response responseVinjeta = wb.request().get();
+        if(responseVinjeta.getStatus() != 200){ // za podano registrsko tablico vinjeta ne obstaja
+            System.out.println("INFO -- New prekersek detected for tablica: " + response);
+            Prekrsek prekrsek = new Prekrsek();
+            prekrsek.setNumberPlate(response);
+            prekrsek.setLocation(location);
+            prekrsek.setTimestamp(new Date());
+            prekrsek.setImageId(slika.getId());
+            prekrsekBean.addNewPrekrsek(prekrsek);
+        }
+        else{
+            System.out.println("INFO -- tablica " + response + " found in database. ");
+        }
 
         return Response.status(200).build();
-    }
-
-    @POST
-    @Path("test")
-    public Response testServiceCommunication() throws IOException {
-
-        WebTarget service = uporabnikiTarget.path("v1/uporabniki/test");
-        System.out.println(service);
-        Response response = service.request().get();
-
-        if(response != null){
-            return Response.ok().build();
-        }
-        return Response.status(Response.Status.BAD_REQUEST).build();
     }
 
     @DELETE

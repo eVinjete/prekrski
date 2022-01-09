@@ -14,7 +14,7 @@ public class SlikaService {
     @PersistenceContext(unitName = "evinjete-prekrski")
     private EntityManager em;
 
-    public Slika getSlika(String slikaId) {
+    public Slika getSlika(Integer slikaId) {
         return em.find(Slika.class, slikaId);
     }
 

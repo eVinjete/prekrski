@@ -71,7 +71,7 @@ public class SlikaBean implements Serializable {
     }
 
     public String getContentString(Integer id) {
-        Slika slika = slikaBean.getSlika(Integer.toString(id));
+        Slika slika = slikaBean.getSlika(id);
         String imageString= new String(Base64.getEncoder().encodeToString(slika.getContent()));
         return imageString;
     }

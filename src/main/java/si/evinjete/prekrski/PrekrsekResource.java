@@ -3,8 +3,7 @@ package si.evinjete.prekrski;
 import com.kumuluz.ee.discovery.annotations.DiscoverService;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -16,6 +15,7 @@ import javax.ws.rs.core.Response;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -89,7 +89,20 @@ public class PrekrsekResource {
     @POST
     @Path("zaznaj")
     @Consumes("image/jpeg")
-    public Response detectPrekrsek(@QueryParam("kraj") String location, InputStream uploadedInputStream) throws IOException {
+    public Response detectPrekrsek(@QueryParam("kameraid") String kameraid, @QueryParam("password") String password, InputStream uploadedInputStream) throws IOException {
+        Client client = ClientBuilder.newClient();
+        wb = client.target("http://kamere-service.default.svc.cluster.local:8080/v1/kamere/"+kameraid);
+        Response responseKamere = wb.request().get();
+
+        if(responseKamere.getStatus() == Response.Status.NOT_FOUND.getStatusCode()){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        Kamera k = (Kamera)responseKamere.getEntity();
+        if(!k.password.equals(password)){
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
         ByteArrayOutputStream buffer = new ByteArrayOutputStream();
         int nRead;
         byte[] data = new byte[4];
@@ -104,13 +117,12 @@ public class PrekrsekResource {
         Slika slika = new Slika();
         slika.setContent(targetArray);
         slika.setTimestamp(new Date());
-        slika.setLocation(location);
+        slika.setLocation(k.location);
 
 //        WebTarget service = anprTarget.path("v1/upload/slika");
 //        System.out.println(service);
 //        String response = service.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
 
-        Client client = ClientBuilder.newClient();
         wb = client.target("http://anpr-service.default.svc.cluster.local:8080/v1/upload/slika");
         String response = wb.request(MediaType.APPLICATION_JSON).post(Entity.json(slika), String.class);
 
@@ -130,7 +142,7 @@ public class PrekrsekResource {
             System.out.println("INFO -- New prekersek detected for tablica: " + response);
             Prekrsek prekrsek = new Prekrsek();
             prekrsek.setNumberPlate(response);
-            prekrsek.setLocation(location);
+            prekrsek.setLocation(k.location);
             prekrsek.setTimestamp(new Date());
             prekrsek.setImageId(slika.getId());
             prekrsekBean.addNewPrekrsek(prekrsek);
@@ -165,3 +177,4 @@ public class PrekrsekResource {
                 : Response.status(Response.Status.NOT_FOUND).build();
     }
 }
+

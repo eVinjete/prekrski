@@ -10,6 +10,7 @@
 
         <class>si.evinjete.prekrski.Prekrsek</class>
         <class>si.evinjete.prekrski.Slika</class>
+        <class>si.evinjete.prekrski.Kamera</class>
 
 <!--        <properties>-->
 <!--            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->

@@ -136,7 +136,7 @@ public class PrekrsekResource {
 
 
         //v vinjete servisu preveri ali obstaja veljavna vinjeta za zaznano registrsko tablico in če ne obstaja potem shrani prekršek
-        wb = client.target("http://vinjete-service.default.svc.cluster.local:8082/v1/vinjete/tablica/"+response);
+        wb = client.target("http://vinjete-service.default.svc.cluster.local:8080/v1/vinjete/tablica/"+response);
         Response responseVinjeta = wb.request().get();
         if(responseVinjeta.getStatus() != 200){ // za podano registrsko tablico vinjeta ne obstaja
             System.out.println("INFO -- New prekersek detected for tablica: " + response);

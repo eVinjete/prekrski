@@ -10,6 +10,7 @@ import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.io.ByteArrayOutputStream;
@@ -63,8 +64,11 @@ public class PrekrsekResource {
     @Path("/tablica/{tablica}")
     public Response getPrekrskiFromTablica(@PathParam("tablica") String tablica) {
         List<Prekrsek> prekrski = prekrsekBean.getPrekrskiFromTablica(tablica);
+        final GenericEntity<List<Prekrsek>> entity
+                = new GenericEntity<List<Prekrsek>>(prekrski) {};
+
         return prekrski != null
-                ? Response.ok(prekrski).build()
+                ? Response.ok(entity).build()
                 : Response.status(Response.Status.NOT_FOUND).build();
     }
 

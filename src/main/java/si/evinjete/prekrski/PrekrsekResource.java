@@ -38,7 +38,7 @@ public class PrekrsekResource {
     @Inject
     private PrekrsekService prekrsekBean;
     @Inject
-    private SlikaService slikaService;
+    private SlikaService slikaBean;
     @Inject
     private PrekrskiProperties properties;
 
@@ -120,7 +120,7 @@ public class PrekrsekResource {
         }
 
         slika.setNumberPlate(response);
-        slikaService.addNewSlika(slika);
+        slikaBean.addNewSlika(slika);
 
 
         //v vinjete servisu preveri ali obstaja veljavna vinjeta za zaznano registrsko tablico in če ne obstaja potem shrani prekršek
@@ -152,7 +152,16 @@ public class PrekrsekResource {
     @DELETE
     @Path("/slike/izbrisi")
     public Response deleteAllSlike() {
-        List<Slika> rows = slikaService.deleteAllSlika(properties.getSlikeAgeProperty());
+        List<Slika> rows = slikaBean.deleteAllSlika(properties.getSlikeAgeProperty());
         return Response.ok(rows).build();
+    }
+
+    @GET
+    @Path("/slike/{slikaId}")
+    public Response getSlika(@PathParam("slikaId") String slikaId) {
+        Slika slika = slikaBean.getSlika(Integer.parseInt(slikaId));
+        return slika != null
+                ? Response.ok(slika).build()
+                : Response.status(Response.Status.NOT_FOUND).build();
     }
 }

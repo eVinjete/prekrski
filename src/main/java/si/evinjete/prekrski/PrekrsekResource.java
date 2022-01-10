@@ -160,10 +160,6 @@ public class PrekrsekResource {
     @Path("/slike/{slikaId}")
     public Response getSlika(@PathParam("slikaId") String slikaId) {
         Slika slika = slikaBean.getSlika(Integer.parseInt(slikaId));
-
-        final GenericEntity<Slika> entity
-                = new GenericEntity<Slika>(slika) {};
-
         return slika != null
                 ? Response.ok(slika).build()
                 : Response.status(Response.Status.NOT_FOUND).build();

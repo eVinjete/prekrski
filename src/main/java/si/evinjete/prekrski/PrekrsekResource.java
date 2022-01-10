@@ -98,7 +98,7 @@ public class PrekrsekResource {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        Kamera k = (Kamera)responseKamere.getEntity();
+        Kamera k = responseKamere.readEntity(Kamera.class);
         if(!k.password.equals(password)){
             return Response.status(Response.Status.FORBIDDEN).build();
         }

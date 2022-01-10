@@ -23,6 +23,15 @@ public class PrekrsekService {
         return prekrski;
     }
 
+    public List<Prekrsek> getPrekrskiFromTablica(String tablica) {
+        List<Prekrsek> prekrski = em
+                .createNamedQuery("Prekrsek.findPrekrskiFromTablica", Prekrsek.class)
+                .setParameter("tablica", tablica)
+                .getResultList();
+
+        return prekrski;
+    }
+
     @Transactional
     public void savePrekrsek(Prekrsek prekrski) {
         if (prekrski != null) {

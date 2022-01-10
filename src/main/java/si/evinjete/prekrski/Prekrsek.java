@@ -13,6 +13,14 @@ import java.util.Date;
                         "FROM Prekrsek p"
         )
 })
+@NamedNativeQueries(
+        {
+                @NamedNativeQuery(
+                        name = "Prekrsek.findPrekrskiFromTablica",
+                        query = "SELECT * FROM prekrsek WHERE number_plate = :tablica", resultClass = Prekrsek.class
+                )
+        }
+)
 public class Prekrsek implements Serializable {
 
     @Column(nullable = false)

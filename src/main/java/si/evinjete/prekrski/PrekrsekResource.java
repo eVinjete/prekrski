@@ -59,6 +59,15 @@ public class PrekrsekResource {
                 : Response.status(Response.Status.NOT_FOUND).build();
     }
 
+    @GET
+    @Path("/tablica/{tablica}")
+    public Response getPrekrskiFromTablica(@PathParam("tablica") String tablica) {
+        List<Prekrsek> prekrski = prekrsekBean.getPrekrskiFromTablica(tablica);
+        return prekrski != null
+                ? Response.ok(prekrski).build()
+                : Response.status(Response.Status.NOT_FOUND).build();
+    }
+
     @POST
     public Response addNewPrekrsek(Prekrsek prekrsek) {
 

@@ -17,7 +17,7 @@ import java.util.Date;
         {
                 @NamedNativeQuery(
                         name = "Prekrsek.findPrekrskiFromTablica",
-                        query = "SELECT * FROM prekrsek WHERE numberplate = :tablica", resultClass = Prekrsek.class
+                        query = "SELECT * FROM prekrsek WHERE number_plate = :tablica", resultClass = Prekrsek.class
                 )
         }
 )

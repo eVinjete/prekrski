@@ -27,6 +27,7 @@ public class PrekrsekHealthCheckBean implements HealthCheck {
 
             List<Prekrsek> prekrski = prekrsekBean.getPrekrski();
             List<Slika> slike = slikaBean.getSlike();
+            System.out.println("prekrski size:"+prekrski.size() +", slike size:"+ slike.size());
 
             if (prekrski.size() > 0 && slike.size() > 0) {
                 return HealthCheckResponse.named(PrekrsekHealthCheckBean.class.getSimpleName()).up().build();

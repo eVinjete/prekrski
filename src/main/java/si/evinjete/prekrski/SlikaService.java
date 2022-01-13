@@ -23,7 +23,7 @@ public class SlikaService {
         return em.find(Slika.class, slikaId);
     }
 
-    public List<Slika> getPrekrski() {
+    public List<Slika> getSlike() {
         List<Slika> slike = em
                 .createNamedQuery("Slika.findSlike", Slika.class)
                 .getResultList();
